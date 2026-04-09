@@ -49,6 +49,8 @@ namespace Ecommerce
                 .WithStaticAssets();
 
             app.Run();
+
+            // Test Feature
         }
     }
 }
