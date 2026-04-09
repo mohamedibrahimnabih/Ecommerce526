@@ -11,6 +11,7 @@ namespace Ecommerce
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Injection
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? 
                 throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
