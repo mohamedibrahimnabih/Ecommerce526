@@ -1,9 +1,11 @@
 ﻿using Ecommerce.DataAccess.EntityTypeConfigurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Ecommerce.ViewModels;
 
 namespace Ecommerce.DataAccess
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -13,7 +15,6 @@ namespace Ecommerce.DataAccess
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductSubImg> productSubImgs { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
-
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
 
@@ -31,5 +32,7 @@ namespace Ecommerce.DataAccess
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductEntityTypeConfiguration).Assembly);
         }
+        public DbSet<Ecommerce.ViewModels.RegiterVM> RegiterVM { get; set; } = default!;
+        public DbSet<Ecommerce.ViewModels.LoginVM> LoginVM { get; set; } = default!;
     }
 }

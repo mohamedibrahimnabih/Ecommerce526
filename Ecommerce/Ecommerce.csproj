@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.3">
@@ -19,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\ChatApp\Controllers\" />
-    <Folder Include="Areas\Identity\Controllers\" />
     <Folder Include="wwwroot\images\brands\" />
     <Folder Include="wwwroot\images\products\SubImgs\" />
   </ItemGroup>
