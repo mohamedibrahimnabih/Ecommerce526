@@ -17,6 +17,7 @@ namespace Ecommerce.DataAccess
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<ApplicationUserOTP> ApplicationUserOTPs { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,7 +33,5 @@ namespace Ecommerce.DataAccess
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductEntityTypeConfiguration).Assembly);
         }
-        public DbSet<Ecommerce.ViewModels.RegiterVM> RegiterVM { get; set; } = default!;
-        public DbSet<Ecommerce.ViewModels.LoginVM> LoginVM { get; set; } = default!;
     }
 }

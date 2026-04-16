@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Repositories.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System.Linq.Expressions;
 
 namespace Ecommerce.Repositories
