@@ -27,6 +27,11 @@ namespace Ecommerce.Areas.Identity.Controllers
             _applicationUserOTPRepository = applicationUserOTPRepository;
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Logout()
         {
             await _signInManger.SignOutAsync();
@@ -79,6 +84,8 @@ namespace Ecommerce.Areas.Identity.Controllers
             TempData["success-notification"] = "Create Account Successfully, Please Check Your email to verfiy";
 
             //await _signInManger.SignInAsync(user, false); // Automatic login
+
+            await _userManager.AddToRoleAsync(user, SD.CUSTOMER_AREA);
 
             return RedirectToAction(nameof(Login));
         }

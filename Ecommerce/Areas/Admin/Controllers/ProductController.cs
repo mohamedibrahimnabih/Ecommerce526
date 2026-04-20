@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Areas.Admin.Controllers
 {
     [Area(SD.ADMIN_AREA)]
+    [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE},{SD.EMPLOYEE_ROLE}")]
     public class ProductController : Controller
     {
         //private readonly ApplicationDbContext _context;
@@ -77,6 +79,8 @@ namespace Ecommerce.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> Create(CancellationToken cancellationToken = default)
         {
             ViewBag.Categories = await _categoryRepository.GetAsync(cancellationToken: cancellationToken);
@@ -86,6 +90,8 @@ namespace Ecommerce.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> Create(Product product, IFormFile Img, List<IFormFile>? SubImgs, 
             CancellationToken cancellationToken = default)
         {
@@ -123,6 +129,8 @@ namespace Ecommerce.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> Update(int id, CancellationToken cancellationToken = default)
         {
             //var product = _context.Products.Find(id);
@@ -141,6 +149,8 @@ namespace Ecommerce.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> Update(Product product, IFormFile Img, List<IFormFile>? SubImgs, CancellationToken cancellationToken = default)
         {
             //var productInDB = _context.Products.AsNoTracking().SingleOrDefault(e => e.Id == product.Id);
@@ -203,6 +213,8 @@ namespace Ecommerce.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> ToggleStatus(int id, CancellationToken cancellationToken = default)
         {
             //_context.Products.Update(product);
@@ -219,6 +231,7 @@ namespace Ecommerce.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
         {
             var product = await _repository.GetOneAsync(e => e.Id == id, cancellationToken: cancellationToken);

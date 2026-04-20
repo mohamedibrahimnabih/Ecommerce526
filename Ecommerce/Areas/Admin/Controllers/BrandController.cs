@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Areas.Admin.Controllers
 {
     [Area(SD.ADMIN_AREA)]
+    [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE},{SD.EMPLOYEE_ROLE}")]
     public class BrandController : Controller
     {
         //private readonly ApplicationDbContext _context;
@@ -40,12 +42,15 @@ namespace Ecommerce.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public IActionResult Create()
         {
             return View(new Brand());
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> Create(Brand brand, IFormFile Img, CancellationToken cancellationToken = default)
         {
             if (Img is not null && Img.Length > 0)
@@ -63,6 +68,8 @@ namespace Ecommerce.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> Update(int id, CancellationToken cancellationToken = default)
         {
             //var brand = _context.Brands.Find(id);
@@ -75,6 +82,8 @@ namespace Ecommerce.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> Update(Brand brand, IFormFile Img, CancellationToken cancellationToken = default)
         {
             //var brandInDB = _context.Brands.AsNoTracking().SingleOrDefault(e => e.Id == brand.Id);
@@ -107,6 +116,8 @@ namespace Ecommerce.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> ToggleStatus(int id, CancellationToken cancellationToken = default)
         {
             //_context.Brands.Update(brand);
@@ -124,6 +135,7 @@ namespace Ecommerce.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
         {
             //var brand = _context.Brands.Find(id);

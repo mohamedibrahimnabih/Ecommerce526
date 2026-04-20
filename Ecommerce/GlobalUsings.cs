@@ -9,3 +9,4 @@ global using Ecommerce.Repositories.IRepositories;
 
 global using Ecommerce.Utility;
 global using Ecommerce.Validations;
+global using Ecommerce.Utility.DbInitializers;

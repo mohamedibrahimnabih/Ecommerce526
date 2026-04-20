@@ -18,6 +18,9 @@ namespace Ecommerce.DataAccess
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<ApplicationUserOTP> ApplicationUserOTPs { get; set; }
+        public DbSet<UserReview> UserReviews { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<FavoriteItem> FavoriteItems { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

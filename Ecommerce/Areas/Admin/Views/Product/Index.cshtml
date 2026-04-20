@@ -5,9 +5,12 @@
         <div class="col-md-6">
             <h2 class="display-6">All Products</h2>
         </div>
-        <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
-            <a href="/Admin/Product/Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Create</a>
-        </div>
+        @if (User.IsInRole(SD.SUPER_ADMIN_ROLE) || User.IsInRole(SD.ADMIN_ROLE))
+        {
+            <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
+                <a href="/Admin/Product/Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Create</a>
+            </div>
+        }
     </div>
 
     <!-- Filter Section -->
@@ -134,8 +137,15 @@
                                 <td><span class="badge text-bg-danger">In Active</span></td>
                             }
                             <td>
-                                <a href="/Admin/Product/Update/@item.Id" type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
-                                <a href="/Admin/Product/Delete/@item.Id" class="btn btn-danger btn-delete"><i class="bi bi-trash"></i> Delete</a>
+                                @if (User.IsInRole(SD.SUPER_ADMIN_ROLE) || User.IsInRole(SD.ADMIN_ROLE))
+                                {
+                                    <a href="/Admin/Product/Update/@item.Id" type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
+                                    <a href="/Admin/Product/Delete/@item.Id" class="btn btn-danger btn-delete"><i class="bi bi-trash"></i> Delete</a>
+                                }
+                                else
+                                {
+                                    <span>NoAction</span>
+                                }
                             </td>
                         </tr>
                     }
