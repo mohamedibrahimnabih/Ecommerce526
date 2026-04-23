@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
+using ProductService = Ecommerce.Services.ProductService;
 
 namespace Ecommerce
 {
@@ -39,13 +41,20 @@ namespace Ecommerce
 
             builder.Services.AddScoped<IRepository<Category>, Repository<Category>>();
             builder.Services.AddScoped<IRepository<Brand>, Repository<Brand>>();
-            builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
+            builder.Services.AddScoped<IRepository<Models.Product>, Repository<Models.Product>>();
             builder.Services.AddScoped<IProductSubImgRepository, ProductSubImgRepository>();
             builder.Services.AddScoped<IRepository<ApplicationUserOTP>, Repository<ApplicationUserOTP>>();
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IRepository<Cart>, Repository<Cart>>();
+            builder.Services.AddScoped<IRepository<FavoriteItem>, Repository<FavoriteItem>>();
+            builder.Services.AddScoped<IRepository<UserReview>, Repository<UserReview>>();
+            builder.Services.AddScoped<IRepository<Promotion>, Repository<Promotion>>();
             builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
             builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             var app = builder.Build();
 

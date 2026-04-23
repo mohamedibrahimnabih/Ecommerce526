@@ -21,6 +21,7 @@ namespace Ecommerce.DataAccess
         public DbSet<UserReview> UserReviews { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<FavoriteItem> FavoriteItems { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
