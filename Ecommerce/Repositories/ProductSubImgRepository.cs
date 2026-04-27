@@ -9,11 +9,6 @@ namespace Ecommerce.Repositories
         }
 
         public void DeleteRange(IEnumerable<ProductSubImg> productSubImgs)
-        {
-            foreach (var item in productSubImgs)
-            {
-                _context.productSubImgs.Remove(item);
-            }
-        }
+            => _context.RemoveRange(productSubImgs);
     }
 }

@@ -45,10 +45,12 @@ namespace Ecommerce
             builder.Services.AddScoped<IProductSubImgRepository, ProductSubImgRepository>();
             builder.Services.AddScoped<IRepository<ApplicationUserOTP>, Repository<ApplicationUserOTP>>();
             builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IRepository<Cart>, Repository<Cart>>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IRepository<FavoriteItem>, Repository<FavoriteItem>>();
             builder.Services.AddScoped<IRepository<UserReview>, Repository<UserReview>>();
             builder.Services.AddScoped<IRepository<Promotion>, Repository<Promotion>>();
+            builder.Services.AddScoped<IRepository<Order>, Repository<Order>>();
+            builder.Services.AddScoped<IRepository<OrderItem>, Repository<OrderItem>>();
             builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
             builder.Services.AddTransient<IEmailSender, EmailSender>();

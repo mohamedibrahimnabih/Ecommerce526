@@ -10,16 +10,18 @@ namespace Ecommerce.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IRepository<Cart> _cartRepository;
+        private readonly ICartRepository _cartRepository;
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<Promotion> _promotionRepository;
+        private readonly IRepository<Order> _orderRepository;
 
-        public CartController(UserManager<ApplicationUser> userManager, IRepository<Cart> cartRepository, IRepository<Product> productRepository, IRepository<Promotion> promotionRepository)
+        public CartController(UserManager<ApplicationUser> userManager, ICartRepository cartRepository, IRepository<Product> productRepository, IRepository<Promotion> promotionRepository, IRepository<Order> orderRepository)
         {
             _userManager = userManager;
             _cartRepository = cartRepository;
             _productRepository = productRepository;
             _promotionRepository = promotionRepository;
+            _orderRepository = orderRepository;
         }
 
         public async Task<IActionResult> Index(string? promotionCode = null, CancellationToken cancellationToken = default)
@@ -167,19 +169,27 @@ namespace Ecommerce.Areas.Customer.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user is null) return NotFound();
 
+            var userCart = await _cartRepository
+                .GetAsync(e => e.ApplicationUserId == user.Id,
+                includes: [e => e.Product]);
+
+            Order order = new()
+            {
+                ApplicationUserId = user.Id,
+                TotalPrice = userCart.Sum(e => e.TotalPrice)
+            };
+            await _orderRepository.CreateAsync(order);
+            await _orderRepository.CommitAsync();
+
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string> { "card" },
                 LineItems = new List<SessionLineItemOptions>(),
 
                 Mode = "payment",
-                SuccessUrl = $"{Request.Scheme}://{Request.Host}/customer/checkout/success",
-                CancelUrl = $"{Request.Scheme}://{Request.Host}/customer/checkout/cancel",
+                SuccessUrl = $"{Request.Scheme}://{Request.Host}/customer/checkout/success?orderId={order.Id}",
+                CancelUrl = $"{Request.Scheme}://{Request.Host}/customer/checkout/cancel?orderId={order.Id}",
             };
-
-            var userCart = await _cartRepository
-                .GetAsync(e => e.ApplicationUserId == user.Id,
-                includes: [e => e.Product]);
 
             foreach (var item in userCart)
             {
@@ -203,6 +213,9 @@ namespace Ecommerce.Areas.Customer.Controllers
 
             var service = new SessionService();
             var session = service.Create(options);
+            order.SessionId = session.Id;
+            await _orderRepository.CommitAsync();
+
             return Redirect(session.Url);
         }
     }

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Order>
+
+<div class="container">
+    <div class="row mb-3 align-items-center my-3">
+        <div class="col-md-6">
+            <h2 class="display-6">All Orders</h2>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <section class="py-3 filter-bar">
+        <div class="row" style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;">
+            <div class="col-12">
+                <form>
+                    <div class="row">   
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Order Id" name="OrderId">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-dark w-100">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Is Shipped</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.CreateAt.ToString("MMMM dd, yyyy")</td>
+                            <td><span class="badge text-bg-info text-dark">@item.OrderStatus</span></td>
+                            @if(item.OrderStatus == OrderStatus.Shipped)
+                            {
+                                <td><span class="badge text-bg-danger text-dark">Shipped at @item.ShippedDate?.ToString("MMMM dd, yyyy")</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge text-bg-danger text-dark">Not Shipped!</span></td>
+                            }
+                            <td>
+                                <a href="/customer/Order/details/@item.Id" type="button" class="btn btn-info">Details</a>
+                                <a href="/customer/Order/ReOrder/@item.Id" type="button" class="btn btn-info">Re Order</a>
+                                @if(item.OrderStatus == OrderStatus.InProcessing)
+                                {
+                                    <a href="/customer/Order/refund/@item.Id" type="button" class="btn btn-danger">Refund</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-12 justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" style="display: flex; justify-content: center;">
+                    <li class="page-item">
+                        <a class="page-link" href="?page=0" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=2" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
